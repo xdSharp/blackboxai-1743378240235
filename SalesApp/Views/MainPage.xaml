@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SalesApp.Views.MainPage"
+             Title="Анализ продаж">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20" RowSpacing="15">
+        <!-- Форма добавления продажи -->
+        <Frame Grid.Row="0" Padding="15">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Добавить продажу" FontSize="Medium" FontAttributes="Bold"/>
+                <Entry Placeholder="Название товара" Text="{Binding NewSale.ProductName}"/>
+                <Entry Placeholder="Сумма" Keyboard="Numeric" Text="{Binding NewSale.Amount}"/>
+                <DatePicker Date="{Binding NewSale.Date}"/>
+                <Button Text="Добавить" Command="{Binding AddSaleCommand}"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Статистика -->
+        <Frame Grid.Row="1" Padding="15">
+            <VerticalStackLayout>
+                <Label Text="Статистика" FontSize="Medium" FontAttributes="Bold"/>
+                <Label Text="{Binding TotalSales, StringFormat='Общая сумма: {0:C}'}"/>
+                <Label Text="{Binding TopProduct, StringFormat='Самый продаваемый товар: {0}'}"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Список продаж -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Sales}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" Margin="0,0,0,5">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding ProductName}" FontAttributes="Bold"/>
+                                <Label Text="{Binding Date, StringFormat='Дата: {0:dd.MM.yyyy}'}"/>
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1" 
+                                   Text="{Binding Amount, StringFormat='{0:C}'}" 
+                                   FontSize="Medium"
+                                   TextColor="Green"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
